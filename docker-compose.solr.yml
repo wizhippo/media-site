@@ -1,0 +1,15 @@
+version: "3.4"
+
+services:
+  php:
+    depends_on:
+      - solr
+    environment:
+      SEARCH_ENGINE: solr
+      SOLR_DSN: http://solr:8983/solr
+
+  solr:
+    build:
+      context: .
+      target: app_solr
+    restart: unless-stopped

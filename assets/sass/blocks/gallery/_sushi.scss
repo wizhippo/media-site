@@ -1,0 +1,17 @@
+/* sushi bar */
+.ngl-vt-sushi_bar {
+    position: relative;
+    overflow: hidden;
+    .swiper-container {
+        overflow: visible;
+        position: static;
+    }
+    .swiper-slide {
+        pointer-events: none;
+        opacity: .2;
+        &.swiper-slide-visible {
+            opacity: 1;
+            pointer-events: initial;
+        }
+    }
+}

@@ -1,0 +1,55 @@
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
+
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+/bin/*
+!bin/console
+!bin/sync_db_and_var.sh
+
+/config/graphql/
+/config/app/server/local/
+/config/app/server/local.yaml
+
+/public/assets/
+/public/var/*
+!/public/var/.gitignore
+/public/.htaccess
+/public/robots.txt
+/web
+
+auth.json
+composer.phar
+ide-twig.json
+package-lock.json
+studio.json
+.DS_Store
+.php_cs.cache
+.php-cs-fixer.cache
+.php-version

@@ -1,0 +1,11 @@
+{
+    "smtp.mandrillapp.com": {
+        "name": "smtp.mandrillapp.com",
+        "host": "smtp.mandrillapp.com",
+        "port": "587",
+        "email": "system@example.com",
+        "username": "default",
+        "password": "default",
+        "mechanism": "PLAIN"
+    }
+}

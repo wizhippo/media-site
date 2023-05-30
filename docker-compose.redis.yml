@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  php:
+    depends_on:
+     - redis
+    environment:
+     - CACHE_POOL=cache.redis
+     - CACHE_DSN=redis:6379
+     - CACHE_NAMESPACE
+
+  redis:
+    image: redis:7.0-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]

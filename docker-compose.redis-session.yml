@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  php:
+    depends_on:
+     - redis-session
+    environment:
+     - SESSION_HANDLER_ID=ibexa.session.handler.native_redis
+     - SESSION_SAVE_PATH=tcp://redis-session:6379?weight=1
+
+  redis-session:
+    image: redis:7.0-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]

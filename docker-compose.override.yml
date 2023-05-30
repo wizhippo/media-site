@@ -1,0 +1,69 @@
+version: "3.4"
+
+# Development environment override
+services:
+  php:
+    build:
+      target: app_php_dev
+    volumes:
+      - ./:/srv/app
+      #- ./docker/php/conf.d/zzz-app.local.ini:/usr/local/etc/php/conf.d/zzz-app.local.ini:ro
+      - ~/.composer:/root/.composer
+      # If you develop on Mac or Windows you can remove the vendor/ directory
+      #  from the bind-mount for better performance by enabling the next line:
+      #- /srv/app/vendor
+    environment:
+      # See https://xdebug.org/docs/all_settings#mode
+      XDEBUG_MODE: "${XDEBUG_MODE:-off}"
+###> symfony/mailer ###
+      MAILER_DSN: smtp://mailhog:1025
+###< symfony/mailer ###
+###> symfony/swiftmailer-bundle ###
+      MAILER_URL: null://localhost
+###< symfony/swiftmailer-bundle ###
+    extra_hosts:
+      # Ensure that host.docker.internal is correctly defined on Linux
+      - host.docker.internal:host-gateway
+
+  caddy:
+    command: [ "caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile", "--watch" ]
+    volumes:
+      - ./public:/srv/app/public:ro
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
+
+###> doctrine/doctrine-bundle ###
+  database:
+    volumes:
+      - ./docker/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - 3306:3306
+###< doctrine/doctrine-bundle ###
+
+# In docker-composer caddy service.
+###> symfony/mercure-bundle ###
+###< symfony/mercure-bundle ###
+
+###> symfony/mailer ###
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025 # smtp server
+      - 8025:8025 # web ui
+  #    volumes:
+  #      - ./docker/mailhog/outgoing-smtp.json:/outgoing-smtp.json
+  #    environment:
+  #      - MH_OUTGOING_SMTP=/outgoing-smtp.json
+###< symfony/mailer ###
+
+# Uncomment to expose solr port if needed
+#  solr:
+#    ports:
+#      - 8983:8983
+
+volumes:
+  php_public_var_dir:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./public/var
